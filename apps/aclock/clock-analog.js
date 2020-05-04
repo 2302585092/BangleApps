@@ -1,4 +1,5 @@
 // http://forum.espruino.com/conversations/345155/#comment15172813
+const rot="right";
 const locale = require('locale');
 const p = Math.PI / 2;
 const pRad = Math.PI / 180;
@@ -11,6 +12,9 @@ const centerY = (g.getWidth() / 2) + widgetHeight/2;
 
 
 const seconds = (angle) => {
+  if (rot === "left") {
+    angle = 360-angle;
+  }
   const a = angle * pRad;
   const x = centerX + Math.sin(a) * faceWidth;
   const y = centerY - Math.cos(a) * faceWidth;
@@ -21,6 +25,9 @@ const seconds = (angle) => {
 };
 
 const hand = (angle, r1, r2) => {
+  if (rot === "left") {
+    angle = 360-angle;
+  }
   const a = angle * pRad;
   const r3 = 3;
 
