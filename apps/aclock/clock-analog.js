@@ -1,5 +1,6 @@
 // http://forum.espruino.com/conversations/345155/#comment15172813
 const rot="right";
+const dateMode = false;
 const locale = require('locale');
 const p = Math.PI / 2;
 const pRad = Math.PI / 180;
@@ -9,7 +10,11 @@ let timer = null;
 let currentDate = new Date();
 const centerX = g.getWidth() / 2;
 const centerY = (g.getWidth() / 2) + widgetHeight/2;
-
+const colorSecBefore = '#303030';
+const colorSecAfter = '#FFFFFF';
+const colorMin = '#FFFFFF';
+const colorHour = '#FFFFFF';
+const colorDate = '#FF0000';
 
 const seconds = (angle) => {
   if (rot === "left") {
@@ -54,9 +59,9 @@ const drawAll = () => {
 
   for (let i = 0; i < 60; i++) {
     if (i > currentSec) {
-      g.setColor(0, 0, 0.6);
+      g.setColor(colorSecBefore);
     } else {
-      g.setColor(0.3, 0.3, 1);
+      g.setColor(colorSecAfter);
     }
     seconds((360 * i) / 60);
   }
@@ -65,28 +70,28 @@ const drawAll = () => {
 };
 
 const resetSeconds = () => {
-  g.setColor(0, 0, 0.6);
+  g.setColor(colorSecBefore);
   for (let i = 0; i < 60; i++) {
     seconds((360 * i) / 60);
   }
 };
 
 const onSecond = () => {
-  g.setColor(0.3, 0.3, 1);
+  g.setColor(colorSecAfter);
   seconds((360 * currentDate.getSeconds()) / 60);
   if (currentDate.getSeconds() === 59) {
     resetSeconds();
     onMinute();
   }
-  g.setColor(1, 0.7, 0.2);
+//  g.setColor(1, 0.7, 0.2);
   currentDate = new Date();
   seconds((360 * currentDate.getSeconds()) / 60);
-  g.setColor(1, 1, 1);
+//  g.setColor(1, 1, 1);
 };
 
 const drawDate = () => {
   g.reset();
-  g.setColor(1, 0, 0);
+  g.setColor(colorDate);
   g.setFont('6x8', 2);
 
   const dayString = locale.dow(currentDate, true);
@@ -114,16 +119,18 @@ const onMinute = () => {
 
   // get new date, then draw new hands
   currentDate = new Date();
-  g.setColor(1, 0.9, 0.9);
+  g.setColor(colorHour);
   // Hour
   hand((360 * (currentDate.getHours() + currentDate.getMinutes() / 60)) / 12, -8, faceWidth - 35);
-  g.setColor(1, 1, 0.9);
+  g.setColor(colorMin);
   // Minute
   hand((360 * currentDate.getMinutes()) / 60, -8, faceWidth - 10);
   if (currentDate.getHours() >= 0 && currentDate.getMinutes() === 0) {
     Bangle.buzz();
   }
-  drawDate();
+  if (dateMode) {
+    drawDate();
+  }
 };
 
 const startTimers = () => {
