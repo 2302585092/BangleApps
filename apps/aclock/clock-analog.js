@@ -1,6 +1,12 @@
 // http://forum.espruino.com/conversations/345155/#comment15172813
-const rot="right";
-const dateMode = false;
+let filename = 'aclock.json';
+let settings = Storage.readJSON(filename,1) || {
+  rot : true,
+  dateMode : false
+};
+
+if(!settings.highres) Bangle.setLCDMode("80x80");
+
 const locale = require('locale');
 const p = Math.PI / 2;
 const pRad = Math.PI / 180;
@@ -17,7 +23,7 @@ const colorHour = '#FFFFFF';
 const colorDate = '#FF0000';
 
 const seconds = (angle) => {
-  if (rot === "left") {
+  if (!settings.rot) {
     angle = 360-angle;
   }
   const a = angle * pRad;
@@ -30,7 +36,7 @@ const seconds = (angle) => {
 };
 
 const hand = (angle, r1, r2) => {
-  if (rot === "left") {
+  if (!settings.rot) {
     angle = 360-angle;
   }
   const a = angle * pRad;
@@ -128,7 +134,7 @@ const onMinute = () => {
   if (currentDate.getHours() >= 0 && currentDate.getMinutes() === 0) {
     Bangle.buzz();
   }
-  if (dateMode) {
+  if (settings.dateMode) {
     drawDate();
   }
 };

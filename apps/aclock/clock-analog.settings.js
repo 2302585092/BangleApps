@@ -9,13 +9,16 @@
     '': {'title': 'App Settings'},
     '< Back': back,
     'Direction': {
-      value: settings.dir||'right',
+      value: settings.dir||true,
+      format : dir => dir?"Right":"Left",
       onchange: (dir) => {save('dir', dir)}
     },   
     'Date': {
-      value: settings.date||'yes',
+      value: settings.date||false,
+      format : date => date?"Yes":"No",
       onchange: (date) => {save('date', date)}
     }
   };
   E.showMenu(appMenu)
 })
+
