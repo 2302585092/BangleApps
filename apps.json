@@ -1562,5 +1562,17 @@
       {"name":"mtimer.app.js","url":"mtimer.app.js"},
       {"name":"mtimer.img","url":"mtimer-icon.js","evaluate":true}
     ]
+  },
+  { "id": "tclock",
+    "name": "Text string clock",
+    "shortName":"Text clock",
+    "icon": "app.png",
+    "version":"0.01",
+    "description": "A clock app displaying time as text strings. Currently only German numbers",
+    "tags": "",
+    "storage": [
+      {"name":"tclock.app.js","url":"app.js"},
+      {"name":"tclock.img","url":"app-icon.js","evaluate":true}
+    ]
   }
 ]
