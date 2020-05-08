@@ -3,7 +3,7 @@ const filename = 'aclock.json';
 const Storage = require("Storage");
 let settings = Storage.readJSON(filename,1) || {
   rot : true,
-  dateMode : false
+  date : false
 };
 
 const locale = require('locale');
@@ -133,7 +133,7 @@ const onMinute = () => {
   if (currentDate.getHours() >= 0 && currentDate.getMinutes() === 0) {
     Bangle.buzz();
   }
-  if (settings.dateMode) {
+  if (settings.date) {
     drawDate();
   }
 };
