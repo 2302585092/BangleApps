@@ -19,7 +19,7 @@ const colorSecBefore = '#303030';
 const colorSecAfter = '#FFFFFF';
 const colorMin = '#FFFFFF';
 const colorHour = '#FFFFFF';
-const colorDate = '#FF0000';
+const colorDate = '#404040';
 
 const seconds = (angle) => {
   if (!settings.rot) {
