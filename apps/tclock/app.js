@@ -1,4 +1,11 @@
-// http://forum.espruino.com/conversations/345155/#comment15172813
+const filename = 'tclock.json';
+const Storage = require("Storage");
+let settings = Storage.readJSON(filename,1) || {
+  date : false,
+  alarm1 : false,
+  amin : 0,
+  ahr : 0
+};
 
 const locale = require('locale');
 const faceWidth = 100; // watch face radius (240/2 - 24px for widget area)
@@ -17,9 +24,6 @@ const colorDate = '#FFFFFF';
 const colorBG = '#000000';
 const font = '6x8';
 const fontSize = 2;
-const buzzMode = false;
-const secMode = true;
-const dateMode = false;
 
 let timer = null;
 let currentDate = new Date();
@@ -91,7 +95,7 @@ const drawAll = () => {
   g.clear();
   currentDate = new Date();
   // draw hands first
-  if (dateMode) {
+  if (settings.date) {
     onDay();
   }
   onHour();
@@ -125,7 +129,7 @@ const onMinute = () => {
   g.setColor(colorMin);
   g.drawString(words[currentDate.getMinutes()], startX, startYMin);
 
-  if (buzzMode && (currentDate.getHours() >= 0 && currentDate.getMinutes() === 0)) {
+  if (alarm1 && (currentDate.getHours() === settings.amin && currentDate.getMinutes() === ahr)) {
     Bangle.buzz();
   }
 };
@@ -133,7 +137,7 @@ const onMinute = () => {
 const onHour = () => {
   g.setColor(colorBG);
   g.drawString(words[currentDate.getHours()], startX, startYHour);
-  if (dateMode && (currentDate.getHours() === 23)) {
+  if (settings.date && (currentDate.getHours() === 23)) {
     onDay();
   }
   currentDate = new Date();
