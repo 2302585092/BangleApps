@@ -9,7 +9,9 @@ const startX = 30;
 const startYSec = 100;
 const startYMin = 70;
 const startYHour = 40;
-const startYDate = 150;
+const startYDOW = 150;
+const startYDate = 180;
+const startYMonth = 210;
 const colorSec = '#FFFFFF';
 const colorMin = '#FFFFFF';
 const colorHour = '#FFFFFF';
@@ -142,17 +144,23 @@ const onHour = () => {
 };
 
 const onDay = () => {
-  let dayString = locale.dow(currentDate, true);
-  let dateString = ((currentDate.getDate() < 10) ? '0' : '') + currentDate.getDate().toString();
-  let dateDisplay = `${dayString}-${dateString}`;
+  let dowString = locale.dow(currentDate);
+  let dateString = words[currentDate.getDate()];
+  let monthString = words[currentDate.getMonth()+1];
   g.setColor(colorBG);
-  g.drawString(dateDisplay, startX, startYDate);
+  g.drawString(dowString, startX, startYDOW);
+  g.drawString(dateString, startX, startYDate);
+  g.drawString(monthString, startX, startYMonth);
   currentDate = new Date();
-  dayString = locale.dow(currentDate, true);
-  dateString = ((currentDate.getDate() < 10) ? '0' : '') + currentDate.getDate().toString();
-  dateDisplay = `${dayString}-${dateString}`;
+  dowString = locale.dow(currentDate);
+  dateString = words[currentDate.getDate()];
+  monthString = words[currentDate.getMonth()+1];
   g.setColor(colorDate);
   g.drawString(dateDisplay, startX, startYDate);
+  g.drawString(dowString, startX, startYDOW);
+  g.drawString(dateString, startX, startYDate);
+  g.drawString(monthString, startX, startYMonth);
+
 };
 
 const startTimers = () => {
