@@ -3,25 +3,26 @@
 const locale = require('locale');
 const faceWidth = 100; // watch face radius (240/2 - 24px for widget area)
 const widgetHeight=24+1;
-let timer = null;
-let currentDate = new Date();
 const startX = 30;
 const startYSec = 100;
 const startYMin = 70;
 const startYHour = 40;
-const startYDOW = 150;
-const startYDate = 180;
-const startYMonth = 210;
+const startYDOW = 140;
+const startYDate = 170;
+const startYMonth = 200;
 const colorSec = '#FFFFFF';
 const colorMin = '#FFFFFF';
 const colorHour = '#FFFFFF';
-const colorDate = '#FF0000';
+const colorDate = '#FFFFFF';
 const colorBG = '#000000';
 const font = '6x8';
 const fontSize = 2;
 const buzzMode = false;
 const secMode = true;
 const dateMode = false;
+
+let timer = null;
+let currentDate = new Date();
 
 const words = [
   'null', 
@@ -54,16 +55,16 @@ const words = [
   'siebenundzwanzig',
   'achtundzwanzig',
   'neunundzwanzig',
-  'dreissig',
-  'einunddreissig',
-  'zweiunddreissig',
-  'dreiunddreissig',
-  'vierunddreissig',
-  'fünfunddreissig',
-  'sechsunddreissig',
-  'siebenunddreissig',
-  'achtunddreissig',
-  'neununddreissig',
+  'dreißig',
+  'einunddreißig',
+  'zweiunddreißig',
+  'dreiunddreißig',
+  'vierunddreißig',
+  'fünfunddreißig',
+  'sechsunddreißig',
+  'siebenunddreißig',
+  'achtunddreißig',
+  'neununddreißig',
   'vierzig',
   'einundvierzig',
   'zweiundvierzig',
@@ -127,9 +128,6 @@ const onMinute = () => {
   if (buzzMode && (currentDate.getHours() >= 0 && currentDate.getMinutes() === 0)) {
     Bangle.buzz();
   }
-  if (dateMode) {
-    drawDate();
-  }
 };
 
 const onHour = () => {
@@ -156,7 +154,6 @@ const onDay = () => {
   dateString = words[currentDate.getDate()];
   monthString = words[currentDate.getMonth()+1];
   g.setColor(colorDate);
-  g.drawString(dateDisplay, startX, startYDate);
   g.drawString(dowString, startX, startYDOW);
   g.drawString(dateString, startX, startYDate);
   g.drawString(monthString, startX, startYMonth);
