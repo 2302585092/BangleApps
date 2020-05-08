@@ -102,7 +102,7 @@ const drawDate = () => {
   const dayString = locale.dow(currentDate, true);
   // pad left date
   const dateString = ((currentDate.getDate() < 10) ? '0' : '') + currentDate.getDate().toString();
-  const monthString = (((currentDate.getMonth()+1) < 10) ? '0' : '') + (currentDate.getMonths()+1).toString();
+  const monthString = (((currentDate.getMonth()+1) < 10) ? '0' : '') + (currentDate.getMonth()+1).toString();
   const dateDisplay = `${dayString} ${dateString}.${monthString}.`;
   // console.log(`${dayString}|${dateString}`);
   // center date

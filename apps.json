@@ -180,7 +180,7 @@
   { "id": "aclock",
     "name": "Analog Clock",
     "icon": "clock-analog.png",
-    "version": "0.24",
+    "version": "0.25",
     "description": "An Analog Clock",
     "tags": "clock",
     "type":"clock",
