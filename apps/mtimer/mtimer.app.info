@@ -1,0 +1,5 @@
+require("Storage").write("mtimer.info",{
+  "name":"MultiTimer",
+  "src":"mtimer.app.js",
+  "icon":"mtimer.img"
+});
