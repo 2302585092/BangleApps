@@ -1,5 +1,6 @@
 (function(){
-var CHARGING = 0x07E0;
+//var CHARGING = 0x07E0;
+var CHARGING = -1;
 
 function setWidth() {
   WIDGETS["bat"].width = 40 + (Bangle.isCharging()?16:0);
