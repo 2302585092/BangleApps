@@ -187,7 +187,11 @@
     "allow_emulator":true,
     "storage": [
       {"name":"aclock.app.js","url":"clock-analog.js"},
+      {"name":"aclock.settings.js","url":"clock-analog.settings.js"},
       {"name":"aclock.img","url":"clock-analog-icon.js","evaluate":true}
+    ],
+    "data": [
+      {"name":"aclock.json"}
     ]
   },
   { "id": "clock2x3",
