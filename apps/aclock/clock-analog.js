@@ -1,11 +1,10 @@
 // http://forum.espruino.com/conversations/345155/#comment15172813
-let filename = 'aclock.json';
+const filename = 'aclock.json';
+const Storage = require("Storage");
 let settings = Storage.readJSON(filename,1) || {
   rot : true,
   dateMode : false
 };
-
-if(!settings.highres) Bangle.setLCDMode("80x80");
 
 const locale = require('locale');
 const p = Math.PI / 2;
