@@ -129,7 +129,7 @@ const onMinute = () => {
   g.setColor(colorMin);
   g.drawString(words[currentDate.getMinutes()], startX, startYMin);
 
-  if (settings.alarm1 && (currentDate.getHours() === settings.amin && currentDate.getMinutes() === ahr)) {
+  if (settings.alarm1 && (currentDate.getHours() === settings.amin && currentDate.getMinutes() === settings.ahr)) {
     Bangle.buzz();
   }
 };
