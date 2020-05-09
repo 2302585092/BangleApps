@@ -19,12 +19,12 @@
       onchange: (alarm1) => {save('alarm1', alarm1)}
     },
     "alarm time min" : {
-      value : settings.amin,
+      value : settings.amin||0,
       min: 0, max: 59, step: 1,
       onchange : saveChange('amin', amin)
     },
     "alarm time hr" : {
-      value : settings.ahr,
+      value : settings.ahr||0,
       min: 0, max: 23, step: 1,
       onchange : saveChange('ahr', ahr)
     }
