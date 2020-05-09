@@ -1571,7 +1571,7 @@
     "name": "Text string clock",
     "shortName":"Text clock",
     "icon": "app.png",
-    "version":"0.08",
+    "version":"0.09",
     "description": "A clock app displaying time as text strings. Currently only German numbers",
     "tags": "clock",
     "type":"clock",
