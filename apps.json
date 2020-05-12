@@ -1572,16 +1572,15 @@
       {"name":"hidjoystick.img","url":"app-icon.js","evaluate":true}
     ]
   },
-  { "id": "mtimer",
-    "name": "Multiple Timer App",
-    "shortName":"MultiTimer",
-    "icon": "mtimer.png",
+  { "id": "btimer",
+    "name": "Button timer widget",
+    "shortName":"ButtonTimer",
+    "icon": "btimer.png",
     "version":"0.01",
-    "description": "Multiple timer instances... maybe",
-    "tags": "",
+    "description": "Timer widget listening on BTN1 and BTN3",
+    "tags": "widget",
     "storage": [
-      {"name":"mtimer.app.js","url":"mtimer.app.js"},
-      {"name":"mtimer.img","url":"mtimer-icon.js","evaluate":true}
+      {"name":"btimer.wid.js","url":"widget.js"}
     ]
   },
   { "id": "tclock",
@@ -1595,7 +1594,6 @@
     "allow_emulator": true,
     "storage": [
       {"name":"tclock.app.js","url":"app.js"},
-      {"name":"tclock.widget.js","url":"widget.js"},
       {"name":"tclock.settings.js","url":"settings.js"},
       {"name":"tclock.img","url":"app-icon.js","evaluate":true}
     ],

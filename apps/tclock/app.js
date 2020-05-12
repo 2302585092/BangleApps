@@ -1,10 +1,7 @@
 const filename = 'tclock.json';
 const Storage = require("Storage");
 let settings = Storage.readJSON(filename,1) || {
-  date : false,
-  alarm1 : false,
-  amin : 0,
-  ahr : 0
+  date : false
 };
 
 const locale = require('locale');
@@ -126,10 +123,6 @@ const onMinute = () => {
   currentDate = new Date();
   g.setColor(colorMin);
   g.drawString(words[currentDate.getMinutes()], startX, startYMin, true);
-
-  if (settings.alarm1 && (currentDate.getHours() === settings.ahr && currentDate.getMinutes() === settings.amin)) {
-    Bangle.buzz();
-  }
 };
 
 const onHour = () => {
