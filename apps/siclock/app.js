@@ -2,45 +2,37 @@ let settings = require('Storage').readJSON('siclock.json',1) || {
   date : true,
   seconds : true
 };
+let locale = require('locale');
 
 const timeY = 40;
 const dateY = 70;
-require('Font8x16').add(Graphics);
 
 let timer = null;
 let currentDate = new Date();
 
 const drawAll = () => {
-  g.clear();
-  g.setFont8x16();
-
+  g.setFont("6x8", 3);
   currentDate = new Date();
-  let timeString = `   ${("0"+currentDate.getHours().toString()).substr(-2)}:${("0"+currentDate.getMinutes().toString()).substr(-2)}:${("0"+currentDate.getMinutes().toString()).substr(-2)}   `;
+
+  let timeString;
+  if (settings.seconds) timeString = `   ${("0"+currentDate.getHours().toString()).substr(-2)}:${("0"+currentDate.getMinutes().toString()).substr(-2)}:${("0"+currentDate.getSeconds().toString()).substr(-2)}   `;
+  else timeString = `   ${("0"+currentDate.getHours().toString()).substr(-2)}:${("0"+currentDate.getMinutes().toString()).substr(-2)}   `;
+
   let timeX = (240 - g.stringWidth(timeString))/2;
-  g.drawString(timeString, timeX, timeY);
+  g.drawString(timeString, timeX, timeY, true);
   if (settings.date) {
-      let dateString = `   ${locale.dow(currentDate)} ${("0"+currentDate.getDate().toString()).substr(-2)}.${("0"+currentDate.Month().toString()).substr(-2)}.  `;
+    g.setFont("6x8", 2);
+      let dateString = `   ${locale.dow(currentDate, 1)} ${("0"+currentDate.getDate().toString()).substr(-2)}.${("0"+currentDate.getMonth().toString()).substr(-2)}.  `;
       let dateX = (240 - g.stringWidth(dateString))/2;
-      g.drawString(dateString, dateX, dateY);
+      g.drawString(dateString, dateX, dateY, true);
   }
-};
-
-const onDay = () => {
-  currentDate = new Date();
-  dowString = locale.dow(currentDate);
-  dateString = words[currentDate.getDate()];
-  monthString = words[currentDate.getMonth()+1];
-  g.setColor(colorDate);
-  g.drawString(dowString, startX, startYDOW, true);
-  g.drawString(dateString, startX, startYDate, true);
-  g.drawString(monthString, startX, startYMonth, true);
-
 };
 
 const startTimers = () => {
   timer = setInterval(drawAll, 1000);
 };
 
+g.clear();
 drawAll();
 startTimers();
 Bangle.loadWidgets();
