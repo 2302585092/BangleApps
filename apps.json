@@ -633,6 +633,20 @@
       {"name":"widnceu.wid.js","url":"widget.js"}
     ]
   },
+  { "id": "siclock",
+    "name": "Simple Clock II",
+    "icon": "app.png",
+    "version":"0.01",
+    "description": "A Simple Digital Clock without timezone",
+    "tags": "clock",
+    "type":"clock",
+    "allow_emulator":true,
+    "storage": [
+      {"name":"siclock.app.js","url":"app.js"},
+      {"name":"siclock.settings.js","url":"settings.js"},
+      {"name":"siclock.img","url":"app-icon.js","evaluate":true}
+    ]
+  },
   { "id": "sclock",
     "name": "Simple Clock",
     "icon": "clock-simple.png",
