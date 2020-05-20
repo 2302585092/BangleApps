@@ -22,7 +22,7 @@ const drawAll = () => {
   g.drawString(timeString, timeX, timeY, true);
   if (settings.date) {
     g.setFont("6x8", 2);
-      let dateString = `   ${locale.dow(currentDate, 1)} ${("0"+currentDate.getDate().toString()).substr(-2)}.${("0"+currentDate.getMonth().toString()).substr(-2)}.  `;
+      let dateString = `   ${locale.dow(currentDate, 1)} ${("0"+currentDate.getDate().toString()).substr(-2)}.${("0"+(currentDate.getMonth()+1).toString()).substr(-2)}.  `;
       let dateX = (240 - g.stringWidth(dateString))/2;
       g.drawString(dateString, dateX, dateY, true);
   }
