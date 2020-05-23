@@ -4,7 +4,9 @@
   let timer1id;
   const timer2 = 30*60*1000; //30 minutes
   let timer2id;
-  
+  const clickThreshold = 1; //seconds
+  let lastClickOn;
+  let lastClickOff;
   
   const buzzer = (t) => {
     Bangle.buzz(1000);
@@ -36,6 +38,33 @@
     Bangle.drawWidgets();
   };
 
+  const faceUpOn = (e, button) => {
+    if (lastClickOn) {
+      let clickPeriod = e.time-lastClickOn;
+      if (clickPeriod<clickThreshold) {
+        console.log("wakeOnFaceUp enabled");
+        Bangle.setOptions({wakeOnFaceUp: true});
+        Bangle.buzz(600);
+        lastClickOn = undefined;
+      }
+    }
+    lastClickOn = e.time;
+  };
+
+  const faceUpOff = (e, button) => {
+    if (lastClickOff) {
+      let clickPeriod = e.time-lastClickOff;
+      if (clickPeriod<clickThreshold) {
+        console.log("wakeOnFaceUp disabled");
+        Bangle.setOptions({wakeOnFaceUp: false});
+        Bangle.buzz(200);
+        setTimeout('Bangle.buzz(200)', 300);
+        lastClickOff = undefined;
+        return;
+      }
+    }
+    lastClickOff = e.time;
+  };
 
   const img = require("heatshrink").decompress(atob("iUSwkDCZ8QAw0RBAsBiIABBIgHCiI0FBA4RGEIMiBAoEBiUiBQIyFkIQFHZQIRL45xGCAwAR"));
 
@@ -57,5 +86,8 @@
 
   setWatch(function(e) { toggleTimer(e,1); }, BTN1, {repeat:true, edge:"rising"});
   setWatch(function(e) { toggleTimer(e,2); }, BTN3, {repeat:true, edge:"rising"});
+
+  setWatch(function(e) { faceUpOn(e,4); }, BTN4, {repeat:true, edge:"rising"});
+  setWatch(function(e) { faceUpOff(e,5); }, BTN5, {repeat:true, edge:"rising"});
 
 })()

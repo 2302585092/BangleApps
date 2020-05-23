@@ -1589,11 +1589,11 @@
     ]
   },
   { "id": "btimer",
-    "name": "Button timer widget",
+    "name": "Button (timer) widget",
     "shortName":"ButtonTimer",
     "icon": "btimer.png",
-    "version":"0.01",
-    "description": "Timer widget listening on BTN1 and BTN3",
+    "version":"0.02",
+    "description": "Timer widget listening on BTN1 and BTN3, also 4 and 5 for LCD options",
     "tags": "widget",
     "storage": [
       {"name":"btimer.wid.js","url":"widget.js"}
