@@ -1,5 +1,6 @@
 var appJSON = []; // List of apps and info from apps.json
 var appsInstalled = []; // list of app JSON
+var appSortInfo = {}; // list of data to sort by, from appdates.csv { created, modified }
 var files = []; // list of files on Bangle
 var DEFAULTSETTINGS = {
   pretokenise : true,
@@ -17,6 +18,19 @@ httpGet("apps.json").then(apps=>{
   appJSON.sort(appSorter);
   refreshLibrary();
   refreshFilter();
+});
+
+httpGet("appdates.csv").then(csv=>{
+  document.querySelector(".sort-nav").classList.remove("hidden");
+  csv.split("\n").forEach(line=>{
+    var l = line.split(",");
+    appSortInfo[l[0]] = { 
+      created : Date.parse(l[1]), 
+      modified : Date.parse(l[2])
+    };
+  });
+}).catch(err=>{
+  console.log("No recent.csv - app sort disabled");
 });
 
 // ===========================================  Top Navigation
@@ -182,17 +196,24 @@ function showTab(tabname) {
 
 // =========================================== Library
 
-var chips = Array.from(document.querySelectorAll('.chip')).map(chip => chip.attributes.filterid.value);
+var chips = Array.from(document.querySelectorAll('.filter-nav .chip')).map(chip => chip.attributes.filterid.value);
 var hash = window.location.hash ? window.location.hash.slice(1) : '';
 
 var activeFilter = !!~chips.indexOf(hash) ? hash : '';
-var currentSearch = '';
+var activeSort = '';
+var currentSearch = activeFilter ? '' : hash;
 
 function refreshFilter(){
   var filtersContainer = document.querySelector("#librarycontainer .filter-nav");
   filtersContainer.querySelector('.active').classList.remove('active');
   if(activeFilter) filtersContainer.querySelector('.chip[filterid="'+activeFilter+'"]').classList.add('active');
   else filtersContainer.querySelector('.chip[filterid]').classList.add('active');
+}
+function refreshSort(){
+  var sortContainer = document.querySelector("#librarycontainer .sort-nav");
+  sortContainer.querySelector('.active').classList.remove('active');
+  if(activeSort) sortContainer.querySelector('.chip[sortid="'+activeSort+'"]').classList.add('active');
+  else sortContainer.querySelector('.chip[sortid]').classList.add('active');
 }
 function refreshLibrary() {
   var panelbody = document.querySelector("#librarycontainer .panel-body");
@@ -202,13 +223,20 @@ function refreshLibrary() {
   if (activeFilter) {
     if ( activeFilter == "favourites" ) {
       visibleApps = visibleApps.filter(app => app.id && (favourites.filter( e => e == app.id).length));
-    }else{
+    } else {
       visibleApps = visibleApps.filter(app => app.tags && app.tags.split(',').includes(activeFilter));
     }
   }
 
   if (currentSearch) {
     visibleApps = visibleApps.filter(app => app.name.toLowerCase().includes(currentSearch) || app.tags.includes(currentSearch));
+  }
+
+  if (activeSort) {
+    visibleApps = visibleApps.slice(); // clone the array so sort doesn't mess with original
+    if (activeSort=="created" || activeSort=="modified") {
+      visibleApps = visibleApps.sort((a,b) => appSortInfo[b.id][activeSort] - appSortInfo[a.id][activeSort]);
+    } else throw new Error("Unknown sort type "+activeSort);
   }
 
   panelbody.innerHTML = visibleApps.map((app,idx) => {
@@ -218,6 +246,12 @@ function refreshLibrary() {
     if (versionInfo) versionInfo = " <small>("+versionInfo+")</small>";
     var readme = `<a class="c-hand" onclick="showReadme('${app.id}')">Read more...</a>`;
     var favourite = favourites.find(e => e == app.id);
+
+    var username = "espruino";
+    var githubMatch = window.location.href.match(/\/(\w+)\.github\.io/);
+    if(githubMatch) username = githubMatch[1];
+    var url = `https://github.com/${username}/BangleApps/tree/master/apps/${app.id}`;
+
     return `<div class="tile column col-6 col-sm-12 col-xs-12">
     <div class="tile-icon">
       <figure class="avatar"><img src="apps/${app.icon?`${app.id}/${app.icon}`:"unknown.png"}" alt="${escapeHtml(app.name)}"></figure><br/>
@@ -225,7 +259,7 @@ function refreshLibrary() {
     <div class="tile-content">
       <p class="tile-title text-bold">${escapeHtml(app.name)} ${versionInfo}</p>
       <p class="tile-subtitle">${escapeHtml(app.description)}${app.readme?`<br/>${readme}`:""}</p>
-      <a href="https://github.com/espruino/BangleApps/tree/master/apps/${app.id}" target="_blank" class="link-github"><img src="img/github-icon-sml.png" alt="See the code on GitHub"/></a>
+      <a href="${url}" target="_blank" class="link-github"><img src="img/github-icon-sml.png" alt="See the code on GitHub"/></a>
     </div>
     <div class="tile-action">
       <button class="btn btn-link btn-action btn-lg ${!app.custom?"text-error":"d-hide"}" appid="${app.id}" title="Favorite"><i class="icon"></i>${favourite?"&#x2665;":"&#x2661;"}</button>
@@ -574,10 +608,20 @@ filtersContainer.addEventListener('click', ({ target }) => {
 });
 
 var librarySearchInput = document.querySelector("#searchform input");
-
+librarySearchInput.value = currentSearch;
 librarySearchInput.addEventListener('input', evt => {
   currentSearch = evt.target.value.toLowerCase();
   refreshLibrary();
+});
+
+var sortContainer = document.querySelector("#librarycontainer .sort-nav");
+sortContainer.addEventListener('click', ({ target }) => {
+  if (target.classList.contains('active')) return;
+
+  activeSort = target.getAttribute('sortid') || '';
+  refreshSort();
+  refreshLibrary();
+  window.location.hash = activeFilter;
 });
 
 // =========================================== About
