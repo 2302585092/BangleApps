@@ -852,6 +852,20 @@
       {"name":"pomodo.img","url": "pomodoro-icon.js","evaluate": true}
     ]
   },
+  {
+    "id": "pomodo2",
+    "name":"Pomodoro2",
+    "icon":"pomodoro.png",
+    "version":"0.01",
+    "description": "A simple pomodoro timer.",
+    "tags": "pomodoro,cooking,tools",
+    "type": "app",
+    "allow_emulator":true,
+    "storage": [
+      {"name":"pomodo2.app.js","url": "app.js"},
+      {"name":"pomodo2.img","url": "pomodoro-icon.js","evaluate": true}
+    ]
+  },
   { "id": "blobclk",
     "name": "Large Digit Blob Clock",
     "shortName" : "Blob Clock",
@@ -1592,7 +1606,7 @@
     "name": "Button (timer) widget",
     "shortName":"ButtonTimer",
     "icon": "btimer.png",
-    "version":"0.02",
+    "version":"0.03",
     "description": "Timer widget listening on BTN1 and BTN3, also 4 and 5 for LCD options",
     "tags": "widget",
     "storage": [

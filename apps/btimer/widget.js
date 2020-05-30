@@ -5,8 +5,10 @@
   const timer2 = 30*60*1000; //30 minutes
   let timer2id;
   const clickThreshold = 1; //seconds
-  let lastClickOn;
-  let lastClickOff;
+  let lastClick1;
+  let lastClick3;
+  let lastClick4;
+  let lastClick5;
   
   const buzzer = (t) => {
     Bangle.buzz(1000);
@@ -15,55 +17,63 @@
     Bangle.drawWidgets();
   };
   
-  const toggleTimer = (e, instance) => {
-    if (instance === 1) {
-      if (timer1id === undefined) {
-          console.log("timer 1 started");
-          timer1id = setTimeout(buzzer, timer1, 1);
-      } else {
-          console.log("timer 1 cancelled");
-          clearTimeout(timer1id);
-          timer1id = undefined;
-      }
-    } else {
-      if (timer2id === undefined) {
-          console.log("timer 2 started");
-          timer2id = setTimeout(buzzer, timer2, 2);
-      } else {
-          console.log("timer 2 cancelled");
-          clearTimeout(timer2id);
-          timer2id = undefined;
+  const click1 = (e, button) => {
+    if (lastClick1) {
+      let clickPeriod = e.time-lastClick1;
+      if (clickPeriod<clickThreshold) {
+        if (timer1id === undefined) {
+            console.log("timer 1 started");
+            timer1id = setTimeout(buzzer, timer1, 1);
+        } else {
+            console.log("timer 1 cancelled");
+            clearTimeout(timer1id);
+            timer1id = undefined;
+        }
+        lastClick1 = undefined;
       }
     }
+    lastClick1 = e.time;
     Bangle.drawWidgets();
   };
 
-  const faceUpOn = (e, button) => {
-    if (lastClickOn) {
-      let clickPeriod = e.time-lastClickOn;
+  const click3 = (e, button) => {
+    if (lastClick3) {
+      let clickPeriod = e.time-lastClick3;
+      if (clickPeriod<clickThreshold) {
+        console.log("starting pomodo");
+        lastClick3 = undefined;
+        load("pomodo2.app.js");
+      }
+    }
+    lastClick3 = e.time;
+  };
+
+  const click4 = (e, button) => {
+    if (lastClick4) {
+      let clickPeriod = e.time-lastClick4;
       if (clickPeriod<clickThreshold) {
         console.log("wakeOnFaceUp enabled");
         Bangle.setOptions({wakeOnFaceUp: true});
         Bangle.buzz(600);
-        lastClickOn = undefined;
+        lastClick4 = undefined;
       }
     }
-    lastClickOn = e.time;
+    lastClick4 = e.time;
   };
 
-  const faceUpOff = (e, button) => {
-    if (lastClickOff) {
-      let clickPeriod = e.time-lastClickOff;
+  const click5 = (e) => {
+    if (lastClick5) {
+      let clickPeriod = e.time-lastClick5;
       if (clickPeriod<clickThreshold) {
         console.log("wakeOnFaceUp disabled");
         Bangle.setOptions({wakeOnFaceUp: false});
         Bangle.buzz(200);
         setTimeout('Bangle.buzz(200)', 300);
-        lastClickOff = undefined;
+        lastClick5 = undefined;
         return;
       }
     }
-    lastClickOff = e.time;
+    lastClick5 = e.time;
   };
 
   const img = require("heatshrink").decompress(atob("iUSwkDCZ8QAw0RBAsBiIABBIgHCiI0FBA4RGEIMiBAoEBiUiBQIyFkIQFHZQIRL45xGCAwAR"));
@@ -84,10 +94,10 @@
     draw:draw // called to draw the widget
   };
 
-  setWatch(function(e) { toggleTimer(e,1); }, BTN1, {repeat:true, edge:"rising"});
-  setWatch(function(e) { toggleTimer(e,2); }, BTN3, {repeat:true, edge:"rising"});
+  setWatch(function(e) { click1(e); }, BTN1, {repeat:true, edge:"rising"});
+  setWatch(function(e) { click3(e); }, BTN3, {repeat:true, edge:"rising"});
 
-  setWatch(function(e) { faceUpOn(e,4); }, BTN4, {repeat:true, edge:"rising"});
-  setWatch(function(e) { faceUpOff(e,5); }, BTN5, {repeat:true, edge:"rising"});
+  setWatch(function(e) { click4(e); }, BTN4, {repeat:true, edge:"rising"});
+  setWatch(function(e) { click5(e); }, BTN5, {repeat:true, edge:"rising"});
 
 })()
