@@ -856,7 +856,7 @@
     "id": "pomodo2",
     "name":"Pomodoro2",
     "icon":"pomodoro.png",
-    "version":"0.02",
+    "version":"0.03",
     "description": "A simple pomodoro timer.",
     "tags": "pomodoro,cooking,tools",
     "type": "app",

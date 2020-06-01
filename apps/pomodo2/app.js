@@ -183,13 +183,13 @@ class DoneState extends State {
 
     draw () {
         g.clear();
+        g.setFontAlign(0, 0); // center font
+        g.setFont("Vector", 50); // vector font, 80px
+        drawCounter(0, 120, 120);
         g.setFont("6x8", 2);
         g.setFontAlign(0, 0, 3);
         g.drawString("AGAIN", 230, 50);
         g.drawString("BREAK", 230, 190);
-        g.setFontAlign(0, 0); // center font
-        g.setFont("Vector", 50); // vector font, 80px
-        drawCounter(0, 120, 120);
         //g.setFontAlign(-1, -1);
 
         //g.drawString('You\nare\na\nhero!', 50, 40);
