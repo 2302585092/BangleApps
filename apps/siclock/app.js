@@ -5,13 +5,13 @@ let settings = require('Storage').readJSON('siclock.json',1) || {
 let locale = require('locale');
 
 const timeY = 40;
-const dateY = 70;
+const dateY = 90;
 
 let timer = null;
 let currentDate = new Date();
 
 const drawAll = () => {
-  g.setFont("6x8", 3);
+  g.setFont("6x8", 4);
   currentDate = new Date();
 
   let timeString;

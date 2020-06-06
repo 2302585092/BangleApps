@@ -668,7 +668,7 @@
   { "id": "siclock",
     "name": "Simple Clock II",
     "icon": "app.png",
-    "version":"0.03",
+    "version":"0.04",
     "description": "A Simple Digital Clock without timezone",
     "tags": "clock",
     "type":"clock",
