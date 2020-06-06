@@ -255,4 +255,12 @@ function init () {
     initState.go();
 }
 
+function btn2Pressed () {
+  Bangle.buzz();
+  Bangle.showLauncher();
+}
+
+// Show launcher when middle button pressed
+setWatch(btn2Pressed, BTN2, { repeat: false, edge: "falling" });
+
 init();
