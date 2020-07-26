@@ -149,6 +149,7 @@ class BreakState extends State {
     }
 
     draw () {
+        g.setFont("Vector", 50); // vector font, 80px
         g.setFontAlign(0, 0);
     }
 
@@ -178,6 +179,8 @@ class DoneState extends State {
         }, BTN3, { repeat: true });
 
         setWatch(() => {
+            Bangle.buzz();
+            Bangle.showLauncher();
         }, BTN2, { repeat: true });
     }
 
@@ -190,6 +193,8 @@ class DoneState extends State {
         g.setFontAlign(0, 0, 3);
         g.drawString("AGAIN", 230, 50);
         g.drawString("BREAK", 230, 190);
+        g.setFontAlign(0, 0); // center font
+        g.setFont("Vector", 50); // vector font, 80px
         //g.setFontAlign(-1, -1);
 
         //g.drawString('You\nare\na\nhero!', 50, 40);
@@ -207,7 +212,7 @@ class DoneState extends State {
                 .then(() => new Promise(resolve => setTimeout(resolve, 300)))
                 .then(() => {
                     Bangle.beep(200, 3000);
-                    Bangle.buzz()
+                    Bangle.buzz();
                 });
         }
 
@@ -256,11 +261,8 @@ function init () {
 }
 
 function btn2Pressed () {
-  Bangle.buzz();
-  Bangle.showLauncher();
+
 }
 
-// Show launcher when middle button pressed
-setWatch(btn2Pressed, BTN2, { repeat: false, edge: "falling" });
 
 init();
