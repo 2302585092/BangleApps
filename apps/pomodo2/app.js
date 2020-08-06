@@ -181,7 +181,7 @@ class DoneState extends State {
         setWatch(() => {
             Bangle.buzz();
             Bangle.showLauncher();
-        }, BTN2, { repeat: true });
+        }, BTN2, { repeat: false });
     }
 
     draw () {
